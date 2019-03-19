@@ -40,7 +40,6 @@ router.get('/:id', async (req, res) => {
 // post a question
 router.post('/', questionConstraints, async (req, res) => {
   const { TITLE, BODY, U_ID } = req;
-
   const QUESTION = { title: TITLE, body: BODY, u_id: U_ID };
 
   try {
@@ -53,6 +52,33 @@ router.post('/', questionConstraints, async (req, res) => {
       res.status(400).json({
         error: `Undetermined error adding question.`,
       });
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
+});
+
+// edit a question
+router.put('/:id', questionConstraints, async (req, res) => {
+  const Q_ID = req.params.id;
+  const { TITLE, BODY, U_ID } = req;
+  const QUESTION = { title: TITLE, body: BODY, u_id: U_ID };
+
+  // make sure we have the question to update
+  try {
+    const question = await questionsDB.get(Q_ID);
+    if (typeof question === 'undefined') {
+      res.status(400).json({ message: `There is no question with id:${Q_ID}` });
+    } else {
+      // we do! try to update the question
+      try {
+        const question = await questionsDB.update(Q_ID, QUESTION);
+        res
+          .status(200)
+          .json({ message: `Question id:${Q_ID} has been updated.` });
+      } catch (err) {
+        res.status(500).send(`${err}`);
+      }
     }
   } catch (err) {
     res.status(500).send(`${err}`);
