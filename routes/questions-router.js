@@ -40,7 +40,6 @@ router.get('/:id', async (req, res) => {
 // post a question
 router.post('/', questionConstraints, async (req, res) => {
   const { TITLE, BODY, U_ID } = req;
-  console.log('U_ID', U_ID);
 
   const QUESTION = { title: TITLE, body: BODY, u_id: U_ID };
 
