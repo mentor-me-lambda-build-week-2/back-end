@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// post a answer
+// post an answer
 router.post('/', answerConstraints, async (req, res) => {
   const { TITLE, BODY, U_ID, Q_ID } = req;
   const ANSWER = { title: TITLE, body: BODY, u_id: U_ID, q_id: Q_ID };
@@ -58,7 +58,7 @@ router.post('/', answerConstraints, async (req, res) => {
   }
 });
 
-// edit a answer
+// edit an answer
 router.put('/:id', answerConstraints, async (req, res) => {
   const A_ID = req.params.id;
   const { TITLE, BODY, U_ID, Q_ID } = req;
@@ -85,7 +85,7 @@ router.put('/:id', answerConstraints, async (req, res) => {
   }
 });
 
-// delete a answer
+// delete an answer
 router.delete('/:id', async (req, res) => {
   const Q_ID = req.params.id;
 
