@@ -5,6 +5,7 @@ function registerConstraints(req, res, next) {
   const LASTNAME = req.body.lastname;
   const EMAIL = req.body.email;
   const CLEARPASSWORD = req.body.password;
+  const ISMENTOR = req.body.ismentor;
 
   if (!USERNAME || USERNAME.length < 1) {
     return next({
@@ -76,11 +77,19 @@ function registerConstraints(req, res, next) {
     });
   }
 
+  if (ISMENTOR === undefined || typeof ISMENTOR !== 'boolean') {
+    return next({
+      code: 400,
+      error: `Please provide the 'ismentor' boolean flag.`,
+    });
+  }
+
   // set the req object
   req.USERNAME = USERNAME;
   req.FIRSTNAME = FIRSTNAME;
   req.LASTNAME = LASTNAME;
   req.EMAIL = EMAIL;
+  req.ISMENTOR = ISMENTOR;
   req.CLEARPASSWORD = CLEARPASSWORD;
 
   next();

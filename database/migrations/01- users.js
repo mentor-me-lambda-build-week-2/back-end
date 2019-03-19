@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
     table.string('first_name', 100).notNullable();
     table.string('last_name', 100).notNullable();
     table.bool('to_notify'); // todo set up  Twilio
+    table.bool('is_mentor'); // true if mentor, false if
     table.string('about_title', 255);
     table.string('about', 10000);
   });
