@@ -20,4 +20,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+// get question by id
+router.get('/:id', async (req, res) => {
+  const ID = req.params.id;
+
+  try {
+    const question = await questionsDB.get(ID);
+    if (typeof question === 'undefined') {
+      res.status(400).json({ message: `There is no question with id:${ID}` });
+    } else {
+      res.status(200).json(question);
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
+});
+
 module.exports = router;
