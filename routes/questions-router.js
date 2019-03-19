@@ -102,12 +102,6 @@ router.delete('/:id', async (req, res) => {
           .status(200)
           .json({ message: `Question id:${Q_ID} has been deleted.` });
       } catch (err) {
-        // if (err.errno === 19) {
-        //   res.status(500).json({
-        //     error: `Question id:${ID} can not be deleted because it has actions. Delete the actions first, if you really want to delete this question.`,
-        //   });
-        //   return;
-        // }
         res.status(500).send(`${err}`);
       }
     }
