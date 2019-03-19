@@ -8,4 +8,24 @@ module.exports = {
     }
     return query;
   },
+  insert: function(answer) {
+    return db('answers')
+      .insert(answer)
+      .returning('id')
+      .then(id => ({ id }));
+  },
+  update: function(id, answer) {
+    return db('answers')
+      .where('id', id)
+      .update(answer)
+      .returning('id')
+      .then(id => ({ id }));
+  },
+  remove: function(id) {
+    return db('answers')
+      .where('id', id)
+      .del()
+      .returning('id')
+      .then(id => ({ id }));
+  },
 };
