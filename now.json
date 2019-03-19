@@ -1,8 +1,6 @@
 {
     "version": 2,
-      "github": {
-        "enabled": true
-      },
+      
       "env": {
           "DATABASE_URL": "mentorme-db.cgomwnjzbfck.us-west-2.rds.amazonaws.com",
           "DATABASE_PW": "dajZL!18BRy0"
