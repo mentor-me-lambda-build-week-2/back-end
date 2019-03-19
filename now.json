@@ -3,6 +3,7 @@
       "builds": [
         { "src": "./index.js", "use": "@now/node-server" }
     ],
+    "alias":  ["mentorme.now.sh"],
       "env": {
           "DATABASE_URL": "mentorme-db.cgomwnjzbfck.us-west-2.rds.amazonaws.com",
           "DATABASE_PW": "dajZL!18BRy0"
