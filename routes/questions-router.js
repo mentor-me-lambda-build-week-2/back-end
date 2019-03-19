@@ -1,5 +1,6 @@
 const express = require('express');
 const questionsDB = require('../database/helpers/questionsDB.js');
+const { questionConstraints } = require('../middleware');
 const router = express.Router();
 
 /* 
@@ -30,6 +31,29 @@ router.get('/:id', async (req, res) => {
       res.status(400).json({ message: `There is no question with id:${ID}` });
     } else {
       res.status(200).json(question);
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
+});
+
+// post a question
+router.post('/', questionConstraints, async (req, res) => {
+  const { TITLE, BODY, U_ID } = req;
+  console.log('U_ID', U_ID);
+
+  const QUESTION = { title: TITLE, body: BODY, u_id: U_ID };
+
+  try {
+    const response = await questionsDB.insert(QUESTION);
+    if (response) {
+      res
+        .status(200)
+        .json({ message: `Question with id:${response.id} has been added.` });
+    } else {
+      res.status(400).json({
+        error: `Undetermined error adding question.`,
+      });
     }
   } catch (err) {
     res.status(500).send(`${err}`);

@@ -120,5 +120,54 @@ function loginConstraints(req, res, next) {
   next();
 }
 
+function questionConstraints(req, res, next) {
+  const TITLE = req.body.title;
+  const BODY = req.body.body;
+  const U_ID = req.body.u_id;
+
+  if (U_ID === undefined) {
+    return next({
+      code: 400,
+      error: `Please provide a 'u_id' for the question.`,
+    });
+  }
+
+  if (!TITLE || TITLE.length < 1) {
+    return next({
+      code: 400,
+      error: `Please provide a 'title' for the question.`,
+    });
+  }
+
+  if (TITLE.length > 255) {
+    return next({
+      code: 400,
+      error: `'title' must be shorter than 255 characters.`,
+    });
+  }
+
+  if (!BODY || BODY.length < 1) {
+    return next({
+      code: 400,
+      error: `Please provide a 'body' for the question.`,
+    });
+  }
+
+  if (BODY.length > 10000) {
+    return next({
+      code: 400,
+      error: `'title' must be shorter than 10000 characters.`,
+    });
+  }
+
+  // set the req object
+  req.TITLE = TITLE;
+  req.BODY = BODY;
+  req.U_ID = U_ID;
+
+  next();
+}
+
 module.exports.registerConstraints = registerConstraints;
 module.exports.loginConstraints = loginConstraints;
+module.exports.questionConstraints = questionConstraints;
