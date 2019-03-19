@@ -6,13 +6,17 @@ exports.up = function(knex, Promise) {
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('tags');
+      .inTable('tags')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     table
       .integer('q_id') // FK to questions
       .unsigned()
       .notNullable()
       .references('id')
-      .inTable('questions');
+      .inTable('questions')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
   });
 };
 

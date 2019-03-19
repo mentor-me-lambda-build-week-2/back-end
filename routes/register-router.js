@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs');
 
 // add a new user
 router.post('/', registerConstraints, async (req, res) => {
-  const { USERNAME, CLEARPASSWORD, FIRSTNAME, LASTNAME, EMAIL } = req;
+  const { USERNAME, CLEARPASSWORD, FIRSTNAME, LASTNAME, EMAIL, ISMENTOR } = req;
   try {
     // hash the password
     const HASH = await bcrypt.hash(CLEARPASSWORD, 14);
@@ -21,6 +21,7 @@ router.post('/', registerConstraints, async (req, res) => {
       password: HASH,
       first_name: FIRSTNAME,
       last_name: LASTNAME,
+      is_mentor: ISMENTOR,
     };
     try {
       const response = await registerDB.insert(USER);
