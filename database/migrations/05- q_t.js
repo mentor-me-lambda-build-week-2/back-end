@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .references('id')
       .inTable('tags')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
     table
       .integer('q_id') // FK to questions
@@ -14,6 +15,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .references('id')
       .inTable('questions')
+      .onUpdate('CASCADE')
       .onDelete('CASCADE');
   });
 };
