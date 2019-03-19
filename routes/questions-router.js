@@ -85,4 +85,35 @@ router.put('/:id', questionConstraints, async (req, res) => {
   }
 });
 
+// delete a question
+router.delete('/:id', async (req, res) => {
+  const Q_ID = req.params.id;
+
+  // make sure we have the question to delete
+  try {
+    const question = await questionsDB.get(Q_ID);
+    if (typeof question === 'undefined') {
+      res.status(400).json({ message: `There is no question with id:${Q_ID}` });
+    } else {
+      // we do! try to delete the question
+      try {
+        const question = await questionsDB.remove(Q_ID);
+        res
+          .status(200)
+          .json({ message: `Question id:${Q_ID} has been deleted.` });
+      } catch (err) {
+        // if (err.errno === 19) {
+        //   res.status(500).json({
+        //     error: `Question id:${ID} can not be deleted because it has actions. Delete the actions first, if you really want to delete this question.`,
+        //   });
+        //   return;
+        // }
+        res.status(500).send(`${err}`);
+      }
+    }
+  } catch (err) {
+    res.status(500).send(`${err}`);
+  }
+});
+
 module.exports = router;
