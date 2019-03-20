@@ -1,5 +1,6 @@
 const express = require('express');
 const usersDB = require('../database/helpers/usersDB.js');
+const { jwtRoute } = require('../middleware/jwt');
 const router = express.Router();
 
 /* 
@@ -7,7 +8,7 @@ const router = express.Router();
 */
 
 // get all users
-router.get('/', async (req, res) => {
+router.get('/', jwtRoute, async (req, res) => {
   try {
     const users = await usersDB.get();
     if (users.length === 0) {

@@ -1,5 +1,6 @@
 const express = require('express');
 const registerDB = require('../database/helpers/registerDB');
+const { generateToken } = require('../middleware/jwt');
 const { registerConstraints } = require('../middleware');
 const router = express.Router();
 
@@ -26,9 +27,15 @@ router.post('/', registerConstraints, async (req, res) => {
     try {
       const response = await registerDB.insert(USER);
       if (response) {
-        res
-          .status(200)
-          .json({ message: `User with id:${response.id} has been added.` });
+        // set JWT: generate the token
+        const token = {};
+        token.jwt = generateToken(USER);
+        // attach the username, firstname, and id to the token
+        token.username = USERNAME;
+        token.firstname = FIRSTNAME;
+        token.id = response.id[0];
+        // attach token to the response
+        res.status(201).send(token);
       } else {
         res.status(400).json({
           error: `Undetermined error adding user.`,
