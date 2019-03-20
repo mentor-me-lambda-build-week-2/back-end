@@ -21,6 +21,7 @@ module.exports = {
         .select(
           'a.title',
           'a.body',
+          'a.created_at',
           'u.first_name',
           'u.last_name',
           'u.username',
