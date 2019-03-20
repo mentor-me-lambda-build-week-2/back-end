@@ -35,10 +35,10 @@ module.exports = {
       password: process.env.DATABASE_PW,
       database: 'mentorme', //database name
     },
-    ssl: true,
+    // ssl: true,
     pool: {
-      min: 2,
-      max: 50,
+      min: 1,
+      max: 10,
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -48,4 +48,5 @@ module.exports = {
       directory: './database/seeds',
     },
   },
+  useNullAsDefault: true,
 };

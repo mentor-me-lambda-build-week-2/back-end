@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const server = express();
 const helmet = require('helmet');
@@ -34,7 +35,11 @@ server.use('/api/tags', tags);
 server.use('/api/answers', answers);
 
 server.get('/api', (req, res) => {
-  res.status(200).json({ message: 'API Running!' });
+  res
+    .status(200)
+    .json({
+      message: `API Running! in environment ${process.env.ENVIRONMENT}`,
+    });
 });
 
 // error handling
