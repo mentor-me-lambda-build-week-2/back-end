@@ -1,5 +1,6 @@
 const express = require('express');
 const usersDB = require('../database/helpers/usersDB');
+const { generateToken } = require('../middleware/jwt');
 const { loginConstraints } = require('../middleware');
 const router = express.Router();
 
@@ -12,16 +13,22 @@ const bcrypt = require('bcryptjs');
 // login a user
 router.post('/', loginConstraints, async (req, res) => {
   // req set in loginConstraints
-  const { NAME, CLEARPASSWORD } = req;
+  const { USERNAME, CLEARPASSWORD } = req;
 
   try {
-    const USER = await usersDB.getByName(NAME);
+    const USER = await usersDB.getByUsername(USERNAME);
     if (USER) {
       const VALID = await bcrypt.compare(CLEARPASSWORD, USER.password);
       if (VALID) {
-        req.session.userid = USER.id;
-        console.log('in login', req.session.userid);
-        res.status(200).send(`Logged in`);
+        // set JWT: generate the token
+        const token = {};
+        token.jwt = generateToken(USER);
+        // attach the username, firstname, and id to the token
+        token.username = USER.username;
+        token.firstname = USER.first_name;
+        token.id = USER.id;
+        // attach token to the response
+        res.status(201).send(token);
       } else {
         res.status(401).send(`Invalid Credentials`);
       }

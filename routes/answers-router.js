@@ -1,5 +1,6 @@
 const express = require('express');
 const answersDB = require('../database/helpers/answersDB.js');
+const { jwtRoute } = require('../middleware/jwt');
 const { answerConstraints } = require('../middleware');
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 */
 
 // get all answers
-router.get('/', async (req, res) => {
+router.get('/', jwtRoute, async (req, res) => {
   try {
     const answers = await answersDB.get();
     if (answers.length === 0) {
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
 });
 
 // get answer by id
-router.get('/:id', async (req, res) => {
+router.get('/:id', jwtRoute, async (req, res) => {
   const ID = req.params.id;
 
   try {
@@ -38,7 +39,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // post an answer
-router.post('/', answerConstraints, async (req, res) => {
+router.post('/', jwtRoute, answerConstraints, async (req, res) => {
   const { TITLE, BODY, U_ID, Q_ID } = req;
   const ANSWER = { title: TITLE, body: BODY, u_id: U_ID, q_id: Q_ID };
 
@@ -46,7 +47,7 @@ router.post('/', answerConstraints, async (req, res) => {
     const response = await answersDB.insert(ANSWER);
     if (response) {
       res
-        .status(200)
+        .status(201)
         .json({ message: `Answer with id:${response.id} has been added.` });
     } else {
       res.status(400).json({
@@ -59,7 +60,7 @@ router.post('/', answerConstraints, async (req, res) => {
 });
 
 // edit an answer
-router.put('/:id', answerConstraints, async (req, res) => {
+router.put('/:id', jwtRoute, answerConstraints, async (req, res) => {
   const A_ID = req.params.id;
   const { TITLE, BODY, U_ID, Q_ID } = req;
   const ANSWER = { title: TITLE, body: BODY, u_id: U_ID, q_id: Q_ID };
@@ -74,7 +75,7 @@ router.put('/:id', answerConstraints, async (req, res) => {
       try {
         const answer = await answersDB.update(A_ID, ANSWER);
         res
-          .status(200)
+          .status(201)
           .json({ message: `Answer id:${A_ID} has been updated.` });
       } catch (err) {
         res.status(500).send(`${err}`);
@@ -86,7 +87,7 @@ router.put('/:id', answerConstraints, async (req, res) => {
 });
 
 // delete an answer
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', jwtRoute, async (req, res) => {
   const Q_ID = req.params.id;
 
   // make sure we have the answer to delete
