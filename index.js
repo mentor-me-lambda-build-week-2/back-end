@@ -17,7 +17,7 @@ server.use(express.json());
 server.use(helmet());
 server.use(
   cors({
-    origin: ['localhost:3000', 'https://mentorme-frontend.netlify.com'],
+    origin: ['http://localhost:3000', 'https://mentorme-frontend.netlify.com'],
     credentials: true,
   }),
 );
@@ -35,11 +35,9 @@ server.use('/api/tags', tags);
 server.use('/api/answers', answers);
 
 server.get('/api', (req, res) => {
-  res
-    .status(200)
-    .json({
-      message: `API Running! in environment ${process.env.ENVIRONMENT}`,
-    });
+  res.status(200).json({
+    message: `API Running! in environment ${process.env.ENVIRONMENT}`,
+  });
 });
 
 // error handling
