@@ -220,6 +220,7 @@ function answerConstraints(req, res, next) {
   req.TITLE = TITLE;
   req.BODY = BODY;
   req.U_ID = U_ID;
+  req.Q_ID = Q_ID;
 
   next();
 }
